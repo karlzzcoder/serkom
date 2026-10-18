@@ -1,67 +1,80 @@
 @extends('layouts.admin')
 
 @section('title', 'Tambah Layanan - Admin Panel')
-@section('page_title', 'Tambah Layanan Baru')
 
 @section('content')
-  <div class="max-w-2xl">
-    <div class="mb-6 flex items-center justify-between">
-      <h3 class="text-lg font-bold text-white">Form Tambah Layanan</h3>
-      <a href="{{ route('admin.services.index') }}" class="text-xs text-slate-400 hover:text-white transition">
-        &larr; Kembali ke Daftar
-      </a>
-    </div>
 
-    <form action="{{ route('admin.services.store') }}" method="POST" enctype="multipart/form-data" class="bg-[#0F1623] border border-slate-800 rounded-lg p-6 space-y-5 text-xs">
-      @csrf
+<div class="mb-8 pb-4 border-b border-slate-800/80">
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Tambah Layanan Baru</h1>
+    <p class="text-xs sm:text-sm text-slate-400 mt-1">Isi formulir berikut untuk menambahkan data layanan baru.</p>
+</div>
 
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <label class="block text-slate-400 font-medium mb-1.5">Kode Layanan <span class="text-rose-400">*</span></label>
-          <input type="text" name="code" value="{{ old('code') }}" placeholder="Contoh: NET-04" required
-                 class="w-full bg-[#080C14] border border-slate-700 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500 font-mono">
-          @error('code') <p class="text-rose-400 mt-1 text-[11px]">{{ $message }}</p> @enderror
+<div class="bg-[#0F1623] border border-slate-800/80 p-6 sm:p-8 rounded-2xl max-w-3xl">
+    <form action="{{ route('admin.services.store') }}" method="POST" class="space-y-5">
+        @csrf
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+                <label for="code" class="block text-xs font-mono text-slate-300 mb-2">Kode Layanan *</label>
+                <input type="text" id="code" name="code" required value="{{ old('code') }}" placeholder="misal: SRV-01"
+                       class="w-full bg-[#080C14] border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+                @error('code')
+                    <p class="text-red-400 text-[11px] mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div>
+                <label for="category" class="block text-xs font-mono text-slate-300 mb-2">Kategori Layanan *</label>
+                <select id="category" name="category" required
+                        class="w-full bg-[#080C14] border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-blue-500 transition">
+                    <option value="" disabled {{ old('category') ? '' : 'selected' }}>Pilih Kategori</option>
+                    <option value="Fiber Optic" {{ old('category') == 'Fiber Optic' ? 'selected' : '' }}>Fiber Optic</option>
+                    <option value="Network Infrastructure" {{ old('category') == 'Network Infrastructure' ? 'selected' : '' }}>Network Infrastructure</option>
+                    <option value="Server & Data Center" {{ old('category') == 'Server & Data Center' ? 'selected' : '' }}>Server & Data Center</option>
+                    <option value="Maintenance & Managed Service" {{ old('category') == 'Maintenance & Managed Service' ? 'selected' : '' }}>Maintenance & Managed Service</option>
+                </select>
+                @error('category')
+                    <p class="text-red-400 text-[11px] mt-1">{{ $message }}</p>
+                @enderror
+            </div>
         </div>
 
         <div>
-          <label class="block text-slate-400 font-medium mb-1.5">Kategori <span class="text-rose-400">*</span></label>
-          <select name="category" required class="w-full bg-[#080C14] border border-slate-700 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500">
-            <option value="Infrastructure">Infrastructure</option>
-            <option value="Connectivity">Connectivity</option>
-            <option value="Support">Support</option>
-          </select>
-          @error('category') <p class="text-rose-400 mt-1 text-[11px]">{{ $message }}</p> @enderror
+            <label for="title" class="block text-xs font-mono text-slate-300 mb-2">Judul Layanan *</label>
+            <input type="text" id="title" name="title" required value="{{ old('title') }}" placeholder="Masukkan nama/judul layanan"
+                   class="w-full bg-[#080C14] border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+            @error('title')
+                <p class="text-red-400 text-[11px] mt-1">{{ $message }}</p>
+            @enderror
         </div>
-      </div>
 
-      <div>
-        <label class="block text-slate-400 font-medium mb-1.5">Nama Layanan <span class="text-rose-400">*</span></label>
-        <input type="text" name="title" value="{{ old('title') }}" placeholder="Contoh: Audit Keamanan Jaringan" required
-               class="w-full bg-[#080C14] border border-slate-700 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500">
-        @error('title') <p class="text-rose-400 mt-1 text-[11px]">{{ $message }}</p> @enderror
-      </div>
+        <div>
+            <label for="specs" class="block text-xs font-mono text-slate-300 mb-2">Spesifikasi Singkat *</label>
+            <input type="text" id="specs" name="specs" required value="{{ old('specs') }}" placeholder="misal: Cat6A / Single-Mode FO"
+                   class="w-full bg-[#080C14] border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+            @error('specs')
+                <p class="text-red-400 text-[11px] mt-1">{{ $message }}</p>
+            @enderror
+        </div>
 
-      <div>
-        <label class="block text-slate-400 font-medium mb-1.5">Spesifikasi / Detail Singkat</label>
-        <input type="text" name="specs" value="{{ old('specs') }}" placeholder="Contoh: Mikrotik / Cisco / SLA 99.9%"
-               class="w-full bg-[#080C14] border border-slate-700 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500 font-mono">
-      </div>
+        <div>
+            <label for="description" class="block text-xs font-mono text-slate-300 mb-2">Deskripsi Layanan *</label>
+            <textarea id="description" name="description" rows="4" required placeholder="Jelaskan rincian cakupan pekerjaan layanan..."
+                      class="w-full bg-[#080C14] border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">{{ old('description') }}</textarea>
+            @error('description')
+                <p class="text-red-400 text-[11px] mt-1">{{ $message }}</p>
+            @enderror
+        </div>
 
-      <div>
-        <label class="block text-slate-400 font-medium mb-1.5">Deskripsi Lengkap <span class="text-rose-400">*</span></label>
-        <textarea name="description" rows="4" required placeholder="Jelaskan cakupan layanan..."
-                  class="w-full bg-[#080C14] border border-slate-700 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500 leading-relaxed">{{ old('description') }}</textarea>
-        @error('description') <p class="text-rose-400 mt-1 text-[11px]">{{ $message }}</p> @enderror
-      </div>
-
-      <div class="pt-4 border-t border-slate-800 flex justify-end gap-3">
-        <a href="{{ route('admin.services.index') }}" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded font-medium transition">
-          Batal
-        </a>
-        <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded transition shadow-sm">
-          Simpan Layanan
-        </button>
-      </div>
+        <div class="flex items-center gap-4 pt-4">
+            <button type="submit" class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs sm:text-sm transition shadow-lg shadow-blue-600/20">
+                Simpan Layanan
+            </button>
+            <a href="{{ route('admin.services.index') }}" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs sm:text-sm transition">
+                Batal
+            </a>
+        </div>
     </form>
-  </div>
+</div>
+
 @endsection

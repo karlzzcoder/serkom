@@ -1,51 +1,72 @@
 @extends('layouts.admin')
 
-@section('title', 'Upload Dokumentasi - Admin Panel')
-@section('page_title', 'Upload Foto Galeri Baru')
+@section('title', 'Unggah Galeri - Admin Panel')
 
 @section('content')
-  <div class="max-w-xl">
-    <div class="mb-6 flex items-center justify-between">
-      <h3 class="text-lg font-bold text-white">Form Upload Dokumentasi</h3>
-      <a href="{{ route('admin.galleries.index') }}" class="text-xs text-slate-400 hover:text-white transition">&larr; Kembali</a>
-    </div>
 
-    <form action="{{ route('admin.galleries.store') }}" method="POST" enctype="multipart/form-data" class="bg-[#0F1623] border border-slate-800 rounded-lg p-6 space-y-5 text-xs">
-      @csrf
+<div class="mb-8 pb-4 border-b border-slate-800/80">
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Unggah Dokumentasi Foto</h1>
+    <p class="text-xs sm:text-sm text-slate-400 mt-1">Tambahkan foto dokumentasi proyek baru.</p>
+</div>
 
-      <div>
-        <label class="block text-slate-400 font-medium mb-1.5">Judul Kegiatan / Proyek <span class="text-rose-400">*</span></label>
-        <input type="text" name="title" value="{{ old('title') }}" placeholder="Contoh: Penarikan FO Gedung A" required
-               class="w-full bg-[#080C14] border border-slate-700 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500">
-      </div>
+<div class="bg-[#0F1623] border border-slate-800/80 p-6 sm:p-8 rounded-2xl max-w-3xl">
+    <form action="{{ route('admin.galleries.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+        @csrf
 
-      <div>
-        <label class="block text-slate-400 font-medium mb-1.5">Kategori <span class="text-rose-400">*</span></label>
-        <select name="category" required class="w-full bg-[#080C14] border border-slate-700 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500">
-          <option value="Instalasi FO">Instalasi FO</option>
-          <option value="Ruang Server">Ruang Server</option>
-          <option value="Kabel Structured">Kabel Structured</option>
-          <option value="Maintenance">Maintenance</option>
-        </select>
-      </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+                <label for="category" class="block text-xs font-mono text-slate-300 mb-2">Kategori Proyek *</label>
+                <select id="category" name="category" required
+                        class="w-full bg-[#080C14] border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-blue-500 transition">
+                    <option value="" disabled {{ old('category') ? '' : 'selected' }}>Pilih Kategori</option>
+                    <option value="Server Room Setup" {{ old('category') == 'Server Room Setup' ? 'selected' : '' }}>Server Room Setup</option>
+                    <option value="Fiber Optic Splicing" {{ old('category') == 'Fiber Optic Splicing' ? 'selected' : '' }}>Fiber Optic Splicing</option>
+                    <option value="Maintenance Jaringan" {{ old('category') == 'Maintenance Jaringan' ? 'selected' : '' }}>Maintenance Jaringan</option>
+                    <option value="Structured Cabling" {{ old('category') == 'Structured Cabling' ? 'selected' : '' }}>Structured Cabling</option>
+                    <option value="Dokumentasi Proyek" {{ old('category') == 'Dokumentasi Proyek' ? 'selected' : '' }}>Dokumentasi Proyek</option>
+                </select>
+                @error('category')
+                    <p class="text-red-400 text-[11px] mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
-      <div>
-        <label class="block text-slate-400 font-medium mb-1.5">Pilih Foto <span class="text-rose-400">*</span></label>
-        <input type="file" name="image" accept="image/*" required
-               class="w-full bg-[#080C14] border border-slate-700 rounded px-3 py-2 text-slate-300 focus:outline-none focus:border-blue-500">
-        <p class="text-[10px] text-slate-500 mt-1">Format: JPG, PNG, WEBP. Maksimal 3MB.</p>
-      </div>
+            <div>
+                <label for="image" class="block text-xs font-mono text-slate-300 mb-2">File Foto *</label>
+                <input type="file" id="image" name="image" required accept="image/*"
+                       class="w-full bg-[#080C14] border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-slate-400 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500 transition">
+                @error('image')
+                    <p class="text-red-400 text-[11px] mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
 
-      <div>
-        <label class="block text-slate-400 font-medium mb-1.5">Deskripsi Singkat (Opsional)</label>
-        <textarea name="description" rows="3" placeholder="Catatan lokasi atau spesifikasi pengerjaan..."
-                  class="w-full bg-[#080C14] border border-slate-700 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500">{{ old('description') }}</textarea>
-      </div>
+        <div>
+            <label for="title" class="block text-xs font-mono text-slate-300 mb-2">Judul Foto / Kegiatan *</label>
+            <input type="text" id="title" name="title" required value="{{ old('title') }}" placeholder="Masukkan judul foto dokumentasi"
+                   class="w-full bg-[#080C14] border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+            @error('title')
+                <p class="text-red-400 text-[11px] mt-1">{{ $message }}</p>
+            @enderror
+        </div>
 
-      <div class="pt-4 border-t border-slate-800 flex justify-end gap-3">
-        <a href="{{ route('admin.galleries.index') }}" class="px-4 py-2 bg-slate-800 text-slate-300 rounded font-medium">Batal</a>
-        <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded">Simpan Foto</button>
-      </div>
+        <div>
+            <label for="description" class="block text-xs font-mono text-slate-300 mb-2">Keterangan Singkat</label>
+            <textarea id="description" name="description" rows="3" placeholder="Keterangan singkat kegiatan..."
+                      class="w-full bg-[#080C14] border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">{{ old('description') }}</textarea>
+            @error('description')
+                <p class="text-red-400 text-[11px] mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div class="flex items-center gap-4 pt-4">
+            <button type="submit" class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs sm:text-sm transition shadow-lg shadow-blue-600/20">
+                Simpan Foto
+            </button>
+            <a href="{{ route('admin.galleries.index') }}" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs sm:text-sm transition">
+                Batal
+            </a>
+        </div>
     </form>
-  </div>
+</div>
+
 @endsection
