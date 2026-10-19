@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function showLogin()
+    public function showLoginForm()
     {
         if (Auth::check()) {
-            return redirect()->route('admin.services.index');
+            return redirect()->route('admin.dashboard');
         }
         return view('admin.login');
     }
@@ -19,13 +19,13 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required|email',
+            'email'    => 'required|email',
             'password' => 'required',
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('admin.dashboard'))->with('success', 'Selamat datang kembali, Admin!');
+            return redirect()->route('admin.dashboard')->with('success', 'Selamat datang kembali, Admin!');
         }
 
         return back()->withErrors([
@@ -33,13 +33,12 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
-public function logout(Request $request)
-{
-    Auth::logout();
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-    // Redirect langsung ke Halaman Utama (Home)
-    return redirect('/')->with('success', 'Anda telah berhasil keluar dari sistem admin.');
-}
+        return redirect()->route('admin.login')->with('success', 'Berhasil keluar dari halaman admin.');
+    }
 }

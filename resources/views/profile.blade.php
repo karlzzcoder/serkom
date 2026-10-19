@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Profil Perusahaan & Visi Misi - PT Solusi Koneksi Anda')
+@section('title', ($profile?->company_name ?? 'PT Solusi Koneksi Anda') . ' - Profil Perusahaan & Visi Misi')
 
 @section('content')
 
@@ -13,7 +13,9 @@
     <!-- Hero Header -->
     <div class="mb-10 pb-6 border-b border-slate-800/80 reveal">
       <span class="text-xs font-bold uppercase tracking-widest text-blue-500">Tentang Kami</span>
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mt-2 tracking-tight">PT Solusi Koneksi Anda</h1>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mt-2 tracking-tight">
+        {{ $profile?->company_name ?? 'PT Solusi Koneksi Anda' }}
+      </h1>
       <p class="text-slate-400 text-sm sm:text-base mt-3 max-w-2xl leading-relaxed">
         Mitra penyedia infrastruktur jaringan IT, instalasi kabel terstruktur, dan solusi Fiber Optic terintegrasi untuk sektor bisnis, pendidikan, dan industri.
       </p>
@@ -48,17 +50,12 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch reveal">
       
-      <!-- Deskripsi Perusahaan -->
-      <div class="lg:col-span-7 space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed flex flex-col justify-center">
-        <p>
-          Berdiri di Indonesia, <strong class="text-white">PT Solusi Koneksi Anda</strong> berfokus memberikan fondasi jaringan IT yang stabil, aman, dan dapat diandalkan. Kami percaya bahwa konektivitas yang kuat adalah kunci efisiensi operasional setiap organisasi modern.
-        </p>
-        <p>
-          Didukung oleh tim insinyur jaringan bersertifikasi, kami melayani perancangan topologi LAN/WAN, manajemen ruang server (<em>rack mounting</em> & PDU), hingga pemeliharaan jaringan berkala dengan skema <em>Service Level Agreement</em> (SLA) yang transparan.
-        </p>
+      <!-- Deskripsi Perusahaan (Dinamis dari Database) -->
+      <div class="lg:col-span-7 space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed flex flex-col justify-center whitespace-pre-line">
+        {{ $profile?->about }}
       </div>
 
-      <!-- Card Spesifikasi Layanan -->
+      <!-- Card Spesifikasi Layanan Utama -->
       <div class="lg:col-span-5 bg-[#0F1623] border border-slate-800/80 p-6 sm:p-8 rounded-2xl space-y-4 flex flex-col justify-center">
         <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-3">Spesifikasi Layanan Utama</h3>
         <ul class="text-xs sm:text-sm text-slate-300 space-y-3 font-mono">
@@ -86,7 +83,7 @@
 </section>
 
 <!-- ==========================================
-     SECTION VISI & MISI
+     SECTION VISI & MISI (Dinamis dari Database)
 =========================================== -->
 <section class="w-full bg-[#080C14] py-16 border-b border-slate-800/80">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -99,9 +96,9 @@
             01
           </div>
           <h2 class="text-xl sm:text-2xl font-bold text-white mb-3">Visi Perusahaan</h2>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
-            Menjadi sistem integrator dan penyedia solusi infrastruktur jaringan terdepan di Indonesia yang dikenal atas standar kualitas fisik kabel, keandalan sistem, dan responsifitas layanan teknis.
-          </p>
+          <div class="text-slate-400 text-xs sm:text-sm leading-relaxed whitespace-pre-line">
+            {{ $profile?->vision }}
+          </div>
         </div>
       </div>
 
@@ -112,11 +109,9 @@
             02
           </div>
           <h2 class="text-xl sm:text-2xl font-bold text-white mb-3">Misi Perusahaan</h2>
-          <ul class="text-slate-400 text-xs sm:text-sm leading-relaxed space-y-2.5 list-disc list-inside">
-            <li>Menyediakan instalasi jaringan berstandar industri dengan pengujian parameter fisik yang presisi.</li>
-            <li>Memberikan dukungan teknis cepat, transparan, dan terukur untuk meminimalkan <em>downtime</em> klien.</li>
-            <li>Mengembangkan kompetensi tim teknis secara berkelanjutan seiring perkembangan teknologi IT.</li>
-          </ul>
+          <div class="text-slate-400 text-xs sm:text-sm leading-relaxed whitespace-pre-line">
+            {{ $profile?->mission }}
+          </div>
         </div>
       </div>
 

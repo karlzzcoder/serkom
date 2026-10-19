@@ -53,6 +53,15 @@
                     Dashboard
                 </a>
 
+                <!-- Profil Perusahaan (Menu Baru) -->
+                <a href="{{ route('admin.profile.edit') }}" 
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl transition {{ request()->routeIs('admin.profile*') ? 'bg-blue-600 text-white font-semibold shadow-lg shadow-blue-600/20' : 'text-slate-400 hover:bg-[#080C14] hover:text-white' }}">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v12a2 2 0 01-2 2m-6 0h6"/>
+                    </svg>
+                    Profil Perusahaan
+                </a>
+
                 <!-- Layanan (Ikon Kardus/Paket) -->
                 <a href="{{ route('admin.services.index') }}" 
                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition {{ request()->routeIs('admin.services*') ? 'bg-blue-600 text-white font-semibold shadow-lg shadow-blue-600/20' : 'text-slate-400 hover:bg-[#080C14] hover:text-white' }}">
